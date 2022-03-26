@@ -30,22 +30,23 @@ namespace DiscordPlaylistManagerV2
                 if (menuKey == 1)
                 {
                     PlaylistManager.CurrentlySelectedPlaylist.ShufflePlaylist();
-                    menuKey = -1;
+                    PlaylistManager.ConvertPlaylistToAHK();
+                    menuKey = ResetMenuKey();
                 }
                 if (menuKey == 2)
                 {
                     PlaylistManager.CurrentlySelectedPlaylist = PlaylistManager.PlaylistSelctor();
-                    menuKey = -1;
+                    menuKey = ResetMenuKey();
                 }
                 if (menuKey == 3)
                 {
                     SongManagementMenu.Run();
-                    menuKey = -1;
+                    menuKey = ResetMenuKey();
                 }
                 if (menuKey == 4)
                 {
                     PlaylistManagementMenu.Run();
-                    menuKey = -1;
+                    menuKey = ResetMenuKey();
                 }
                 if (menuKey == 0)
                 {

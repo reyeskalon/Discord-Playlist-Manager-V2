@@ -26,6 +26,7 @@ namespace DiscordPlaylistManagerV2
                 Console.WriteLine($"{i + 1}) {MenuOptions[i]}");
             }
             Console.WriteLine("0) Exit");
+            Console.WriteLine();
         }
         public bool ValidateMenuSelection(int menuKey)
         {
@@ -40,7 +41,6 @@ namespace DiscordPlaylistManagerV2
             int menuKey = -1;
             try
             {
-                Console.WriteLine();
                 menuKey = int.Parse(Console.ReadLine());
                 Console.WriteLine();
             }
@@ -56,12 +56,11 @@ namespace DiscordPlaylistManagerV2
         }
         public string PromptForYesNo()
         {
-            Console.WriteLine();
             string yesOrNo = Console.ReadLine().ToLower();
+            Console.WriteLine();
             while (yesOrNo != "y" && yesOrNo != "n")
             {
                 {
-                    Console.WriteLine();
                     RedText();
                     Console.WriteLine("Please enter either \"y\" or \"n\"");
                     WhiteText();
@@ -70,6 +69,29 @@ namespace DiscordPlaylistManagerV2
                 yesOrNo = Console.ReadLine().ToLower();
             }
             return yesOrNo;
+        }
+        /*        public string PromptForString(string promptMsg, string emptyMsg)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine(promptMsg);
+                    string returnString = Console.ReadLine();
+                    while (returnString == "" || returnString == null)
+                    {
+                        {
+                            Console.WriteLine();
+                            RedText();
+                            Console.WriteLine(emptyMsg);
+                            WhiteText();
+                            Console.WriteLine();
+                        }
+                        returnString = Console.ReadLine().ToLower();
+                    }
+                    return returnString;
+                }*/
+        public int ResetMenuKey()
+        {
+            Console.ReadLine();
+            return -1;
         }
         public void YellowText()
         {

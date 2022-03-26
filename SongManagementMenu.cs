@@ -26,14 +26,22 @@ namespace DiscordPlaylistManagerV2
                 }
                 if(menuKey == 1)
                 {
-                    Console.WriteLine("Song \t\t Artist");
-                    foreach(Song song in PlaylistManager.CurrentlySelectedPlaylist.Songs)
+                    Playlist playlist = PlaylistManager.CurrentlySelectedPlaylist;
+                    if(playlist.Songs.Count < 1)
                     {
-                        Console.WriteLine($"{song.Name} {song.Artist}");
+                        Console.WriteLine($"There are no songs in {playlist.Name}");
                     }
-                    Console.WriteLine();
-                    Console.ReadLine();
-                    menuKey = -1;
+                    else
+                    {
+                        Console.WriteLine("Song \t\t Artist");
+                        foreach (Song song in playlist.Songs)
+                        {
+                            Console.WriteLine($"{song.Name} {song.Artist}");
+                        }
+                        Console.WriteLine();
+                        Console.ReadLine();
+                    }
+                    menuKey = ResetMenuKey();
                 }
                 if(menuKey == 2)
                 {

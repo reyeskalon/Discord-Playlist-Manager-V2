@@ -26,8 +26,8 @@ namespace DiscordPlaylistManagerV2
                 }
                 if(menuKey == 1)
                 {
-                     PlaylistManager.CurrentlySelectedPlaylist = PlaylistManager.CreateNewPlaylist();
-                    menuKey = -1;
+                    PlaylistManager.CurrentlySelectedPlaylist = PlaylistManager.CreateNewPlaylist();
+                    
                 }
                 if (menuKey == 2)
                 {

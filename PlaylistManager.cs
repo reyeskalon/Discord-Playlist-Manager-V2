@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace DiscordPlaylistManagerV2
 {
@@ -10,9 +11,11 @@ namespace DiscordPlaylistManagerV2
     {
         public Playlist CurrentlySelectedPlaylist { get; set; } = new Playlist();
         public List<Playlist> Playlists = new List<Playlist>();
-        public string StartOfPlaylistStr = "[Start of Playlist]";
-        public string EndOfPlaylistStr = "[End of Playlist]";
-        public string CurrentPlaylistStr = "[Current Playlist]";
+        private string StartOfPlaylistStr = "[Start of Playlist]";
+        private string EndOfPlaylistStr = "[End of Playlist]";
+        private string CurrentPlaylistStr = "[Current Playlist]";
+        private string AHKFilePath = Directory.GetCurrentDirectory() + "\\playlist.ahk";
+        private int SongsPerFile = 50;
         public string FilePath { get; set; } = "";
         public PlaylistManager(string filePath)
         {
@@ -137,29 +140,41 @@ namespace DiscordPlaylistManagerV2
             Console.WriteLine("--------------------------------------------------");
             Dictionary<int, Playlist> indexedPlaylists = new Dictionary<int, Playlist>();
             int counter = 1;
-            foreach(Playlist playlist in Playlists)
+            foreach (Playlist playlist in Playlists)
             {
                 Console.WriteLine($"({counter}) {playlist.Name}");
                 indexedPlaylists.Add(counter, playlist);
                 counter++;
             }
             Console.WriteLine("--------------------------------------------------");
+            Console.WriteLine();
             int playlistKey = 0;
-            while(playlistKey < 1 || playlistKey > indexedPlaylists.Count)
+            while (playlistKey < 1 || playlistKey > indexedPlaylists.Count)
             {
                 try
                 {
                     playlistKey = int.Parse(Console.ReadLine());
+                    Console.WriteLine();
                 }
                 catch (Exception)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Please enter a valid number!");
+                    Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
-                if(playlistKey < 1 || playlistKey > indexedPlaylists.Count)
+                if (playlistKey < 1 || playlistKey > indexedPlaylists.Count)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Please enter the number that corresponds to the playlist you would like to access");
+                    Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
             }
+            GreenText();
+            Console.WriteLine($"{indexedPlaylists[playlistKey].Name} is now selected");
+            Console.WriteLine();
+            WhiteText();
             return indexedPlaylists[playlistKey];
         }
         public Playlist CreateNewPlaylist()
@@ -178,13 +193,17 @@ namespace DiscordPlaylistManagerV2
                         hasPlaylistWithSameName = true;
                     }
                 }
-                if(hasPlaylistWithSameName)
-                {
+                if (hasPlaylistWithSameName)
+                { 
+                    RedText();
                     Console.WriteLine("There is already a playlist with that name please choose another");
+                    WhiteText();
                 }
                 if(playlistName == "")
                 {
+                    RedText();
                     Console.WriteLine("Playlist name cannot be empty");
+                    WhiteText();
                 }
 
             }
@@ -195,17 +214,67 @@ namespace DiscordPlaylistManagerV2
         public void AddSong()
         {
             Console.WriteLine("adding songs");
-            Console.ReadLine();
         }
         public void RemoveSongs()
         {
             Console.WriteLine("removing songs");
-            Console.ReadLine();
         }
         public void UpdateYouTubeLink()
         {
             Console.WriteLine("updating YouTube link");
-            Console.ReadLine();
+        }
+        public void ConvertPlaylistToAHK()
+        {
+            int songCount = CurrentlySelectedPlaylist.Songs.Count;
+            int numOfFiles = songCount / 50;
+            int songsLoopedThrough = 0;
+            for (int i = 0; i <= numOfFiles; i++)
+            {
+                string fileName = AHKFilePath.Insert(AHKFilePath.Length - 4, $"{i}");
+                List <string> linesToAdd = new List<string>();
+                linesToAdd.Add("1::");
+                linesToAdd.Add("");
+                linesToAdd.Add("{");
+                for(int j = songsLoopedThrough; j < songsLoopedThrough + SongsPerFile && j < songCount; j++)
+                {
+                    Song currentSong = CurrentlySelectedPlaylist.Songs[j / 2];
+                    if(currentSong.YouTubeLink != null)
+                    {
+                        linesToAdd.Add($"\tSend Raw, !play {currentSong.YouTubeLink}");
+                    }
+                    else
+                    {
+                        linesToAdd.Add($"\tSend Raw, !play {currentSong.Name} by {currentSong.Artist}");
+                    }
+                    linesToAdd.Add("\tSend, {enter}");
+                }
+                linesToAdd.Add("}");
+                File.WriteAllLines(fileName, linesToAdd);
+                songsLoopedThrough += SongsPerFile;
+            }
+            GreenText();
+            Console.WriteLine("Playlist converted to AHK script(s)");
+            WhiteText();
+            Console.WriteLine();
+        }
+        public void YellowText()
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+        }
+
+        public void WhiteText()
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        public void GreenText()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+        }
+
+        public void RedText()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
         }
     }
 }

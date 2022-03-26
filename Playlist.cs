@@ -44,9 +44,10 @@ namespace DiscordPlaylistManagerV2
                 Songs[i] = Songs[randomIndex];
                 Songs[randomIndex] = song;
             }
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Playlist has been shuffled.");
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
-            Console.ReadLine();
         }
     }
 }
