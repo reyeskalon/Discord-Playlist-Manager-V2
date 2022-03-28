@@ -8,9 +8,9 @@ namespace DiscordPlaylistManagerV2
 {
     public class Song
     {
-        public string Name { get; }
-        public string Artist { get; }
-        public string? YouTubeLink { get; }
+        public string? Name { get; set; }
+        public string? Artist { get; set; }
+        public string? YouTubeLink { get; set; }
 
         public Song(string name, string artist, string youTubeLink)
         {
@@ -23,5 +23,6 @@ namespace DiscordPlaylistManagerV2
             Name = name;
             Artist = artist;
         }
+        public Song() { }
     }
 }

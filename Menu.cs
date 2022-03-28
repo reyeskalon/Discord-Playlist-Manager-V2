@@ -13,14 +13,18 @@ namespace DiscordPlaylistManagerV2
         public void DisplayMenu()
         {
             Console.Clear();
-            YellowText();
+            Display.YellowText();
             Console.Write("Hello and Welcome to Keenan's Playlist Manager");
-            WhiteText();
+            Display.WhiteText();
             Console.Write("\t\t\t\t Selected Playlist: ");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"{PlaylistManager.CurrentlySelectedPlaylist.Name}");
-            WhiteText();
-            Console.WriteLine();
+            if(PlaylistManager.CurrentlySelectedPlaylist != null)
+            {
+                Display.SuccessMessage($"{PlaylistManager.CurrentlySelectedPlaylist.Name}");
+            }
+            else
+            {
+                Display.ErrorMessage("No Playlists");
+            }
             for (int i = 0; i < MenuOptions.Count; i++)
             {
                 Console.WriteLine($"{i + 1}) {MenuOptions[i]}");
@@ -46,71 +50,14 @@ namespace DiscordPlaylistManagerV2
             }
             catch
             {
-                Console.WriteLine();
-                RedText();
-                Console.WriteLine("Please enter a valid number");
-                WhiteText();
-                Console.WriteLine();
+                Display.ErrorMessage("Please enter a valid number");
             }
             return menuKey;
         }
-        public string PromptForYesNo()
-        {
-            string yesOrNo = Console.ReadLine().ToLower();
-            Console.WriteLine();
-            while (yesOrNo != "y" && yesOrNo != "n")
-            {
-                {
-                    RedText();
-                    Console.WriteLine("Please enter either \"y\" or \"n\"");
-                    WhiteText();
-                    Console.WriteLine();
-                }
-                yesOrNo = Console.ReadLine().ToLower();
-            }
-            return yesOrNo;
-        }
-        /*        public string PromptForString(string promptMsg, string emptyMsg)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine(promptMsg);
-                    string returnString = Console.ReadLine();
-                    while (returnString == "" || returnString == null)
-                    {
-                        {
-                            Console.WriteLine();
-                            RedText();
-                            Console.WriteLine(emptyMsg);
-                            WhiteText();
-                            Console.WriteLine();
-                        }
-                        returnString = Console.ReadLine().ToLower();
-                    }
-                    return returnString;
-                }*/
         public int ResetMenuKey()
         {
             Console.ReadLine();
             return -1;
-        }
-        public void YellowText()
-        {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-        }
-
-        public void WhiteText()
-        {
-            Console.ForegroundColor = ConsoleColor.White;
-        }
-
-        public void GreenText()
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-        }
-
-        public void RedText()
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
         }
     }
 }

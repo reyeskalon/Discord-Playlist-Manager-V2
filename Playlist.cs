@@ -9,7 +9,7 @@ namespace DiscordPlaylistManagerV2
     public class Playlist
     {
         public List<Song> Songs = new List<Song>();
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public Playlist(string name)
         {
             Name = name;
@@ -19,7 +19,7 @@ namespace DiscordPlaylistManagerV2
         {
             Songs.Add(song);
         }
-        public Song GetSong(string songName, string songArtist)
+        public Song? GetSong(string songName, string songArtist)
         {
             foreach (Song song in Songs)
             {
@@ -33,21 +33,6 @@ namespace DiscordPlaylistManagerV2
         public void RemoveSong(Song song)
         {
             Songs.Remove(song);
-        }
-        public void ShufflePlaylist()
-        {
-            Random random = new Random();
-            for (int i = 0; i < Songs.Count; i++)
-            {
-                int randomIndex = random.Next(i, Songs.Count);
-                Song song = Songs[i];
-                Songs[i] = Songs[randomIndex];
-                Songs[randomIndex] = song;
-            }
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Playlist has been shuffled.");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine();
         }
     }
 }

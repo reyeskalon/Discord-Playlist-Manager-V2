@@ -22,55 +22,24 @@ namespace DiscordPlaylistManagerV2
                 DisplayMenu();
                 while (!ValidateMenuSelection(menuKey))
                 {
+                    Display.YellowText();
                     menuKey = PromptForMenuKey();
+                    Display.WhiteText();
                 }
                 if(menuKey == 1)
                 {
                     PlaylistManager.CurrentlySelectedPlaylist = PlaylistManager.CreateNewPlaylist();
-                    
+                    menuKey = ResetMenuKey();
                 }
                 if (menuKey == 2)
                 {
-                    Console.WriteLine($"Are you sure you want to delete the currently selected playlist: {PlaylistManager.CurrentlySelectedPlaylist.Name} this action cannot be undone (y/n)");
-                    string delete = PromptForYesNo();
-                    if(delete == "y")
-                    {
-                        for(int i = 0; i < PlaylistManager.Playlists.Count; i++)
-                        {
-                            if(PlaylistManager.Playlists[i].Name == PlaylistManager.CurrentlySelectedPlaylist.Name)
-                            {
-                                PlaylistManager.Playlists.RemoveAt(i);
-                            }
-                        }
-                        Console.WriteLine("Playlist has been deleted");
-                    }
-                    else
-                    {
-                        menuKey = -1;
-                    }
+                    PlaylistManager.RemovePlaylist();
+                    menuKey = ResetMenuKey();
                 }
                 if (menuKey == 3)
                 {
-                    Console.WriteLine($"What would you like to rename {PlaylistManager.CurrentlySelectedPlaylist.Name} to?");
-                    string newName = Console.ReadLine();
-                    if (newName != null)
-                    {
-                        Console.WriteLine($"Are you sure you want to rename {PlaylistManager.CurrentlySelectedPlaylist.Name} to {newName}?");
-                        string rename = PromptForYesNo();
-                        if (rename == "y")
-                        {
-                            PlaylistManager.CurrentlySelectedPlaylist.Name = newName;
-                            menuKey = -1;
-                        }
-                        else
-                        {
-                            menuKey = -1;
-                        }
-                    }
-                    else
-                    {
-                        menuKey = -1;
-                    }
+                    PlaylistManager.RenamePlaylist();
+                    menuKey = ResetMenuKey();
                 }
             } while (menuKey != 0);
         }

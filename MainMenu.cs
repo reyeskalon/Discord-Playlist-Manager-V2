@@ -25,11 +25,13 @@ namespace DiscordPlaylistManagerV2
                 DisplayMenu();
                 while (!ValidateMenuSelection(menuKey))
                 {
+                    Display.YellowText();
                     menuKey = PromptForMenuKey();
+                    Display.WhiteText();
                 }
                 if (menuKey == 1)
                 {
-                    PlaylistManager.CurrentlySelectedPlaylist.ShufflePlaylist();
+                    PlaylistManager.ShufflePlaylist();
                     PlaylistManager.ConvertPlaylistToAHK();
                     menuKey = ResetMenuKey();
                 }
@@ -41,16 +43,17 @@ namespace DiscordPlaylistManagerV2
                 if (menuKey == 3)
                 {
                     SongManagementMenu.Run();
-                    menuKey = ResetMenuKey();
+                    menuKey = -1;
                 }
                 if (menuKey == 4)
                 {
                     PlaylistManagementMenu.Run();
-                    menuKey = ResetMenuKey();
+                    menuKey = -1;
                 }
                 if (menuKey == 0)
                 {
                     PlaylistManager.SavePlaylists();
+                    PlaylistManager.ConvertPlaylistToAHK();
                 }
             } while (menuKey != 0);
         }
