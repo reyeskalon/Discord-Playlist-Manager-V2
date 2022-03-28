@@ -17,6 +17,7 @@ namespace DiscordPlaylistManagerV2
         public string ReadWriteFilePath = Directory.GetCurrentDirectory() + "\\DiscordPlaylistManagerList.txt";
         private string AHKFilePath = Directory.GetCurrentDirectory() + "\\playlist.ahk";
         private int SongsPerFile = 50;
+        string PlayCommand = "/play";
         public PlaylistManager()
         {
 
@@ -531,11 +532,11 @@ namespace DiscordPlaylistManagerV2
                         Song currentSong = CurrentlySelectedPlaylist.Songs[j];
                         if (currentSong.YouTubeLink != null && currentSong.YouTubeLink != "")
                         {
-                            linesToAdd.Add($"\tSendRaw, !play {currentSong.YouTubeLink}");
+                            linesToAdd.Add($"\tSendRaw, {PlayCommand} {currentSong.YouTubeLink}");
                         }
                         else
                         {
-                            linesToAdd.Add($"\tSendRaw, !play {currentSong.Name} by {currentSong.Artist}");
+                            linesToAdd.Add($"\tSendRaw, {PlayCommand} {currentSong.Name} by {currentSong.Artist}");
                         }
                         linesToAdd.Add("\tSend, {enter}");
                     }
